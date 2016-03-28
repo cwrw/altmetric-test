@@ -1,6 +1,6 @@
 class Combine
   attr_reader :formatter, :journals_file, :articles_file,
-    :authors_file, :full_articles, :records
+    :authors_file, :records
 
   def initialize(formatter:, journals_file:, articles_file:, authors_file:)
     @formatter = formatter
@@ -19,8 +19,6 @@ class Combine
   def output
     link_records
     formatter.write(records)
-  rescue => e
-    "Unable to process files due to: #{e.message}"
   end
 
   def link_records

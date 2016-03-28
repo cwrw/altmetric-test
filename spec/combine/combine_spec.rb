@@ -58,13 +58,9 @@ RSpec.describe Combine do
   end
 
   context "exceptions" do
-    let(:message) do
-      "Unable to process files due to: Boom!\n"
-    end
-
     it "outputs error message if exception occurs" do
       allow(Combine::AuthorsParser).to receive(:new).and_raise("Boom!")
-      expect { subject.generate }.to output(message).to_stdout
+      expect { subject.generate }.to raise_error("Boom!")
     end
   end
 end
