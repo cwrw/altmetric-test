@@ -1,7 +1,7 @@
 class Combine
   class Record
     attr_reader :doi, :title, :author, :journal, :issn
-    HEADER = ["DOI", "Article title", "Author name", "Journal title", "Journal ISSN"]
+    HEADER = ["DOI", "Article title", "Author name", "Journal title", "Journal ISSN"].freeze
 
     def initialize(options = {})
       @doi = options.fetch(:doi)
@@ -9,15 +9,6 @@ class Combine
       @author = options.fetch(:author)
       @journal = options.fetch(:journal)
       @issn = options.fetch(:issn)
-    end
-
-    def ==(other)
-      other.is_a?(FullArticle) &&
-        other.doi == doi &&
-        other.title == title &&
-        other.author == author &&
-        other.journal == journal &&
-        other.issn == issn
     end
 
     def valid?
