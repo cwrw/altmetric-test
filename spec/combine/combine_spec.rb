@@ -15,23 +15,16 @@ RSpec.describe Combine do
 
   describe "#generate" do
     context "json formatter" do
-      let(:message) do
-        fixture_full_articles_json
-      end
-
       it "output linked records in json" do
-        expect { subject.generate }.to output(message).to_stdout
+        expect { subject.generate }.to output(fixture_full_articles_json).to_stdout
       end
     end
 
     context "csv formatter" do
       let(:formatter) { Formatter::CsvFormatter }
-      let(:message) do
-        fixture_full_articles_csv
-      end
 
       it "output linked records in csv" do
-        expect { subject.generate }.to output(message).to_stdout
+        expect { subject.generate }.to output(fixture_full_articles_csv).to_stdout
       end
     end
   end

@@ -29,3 +29,6 @@ Style/RegexpLiteral:
 
 Style/Alias:
   Enabled: false
+
+Style/WordArray:
+  Enabled: false
