@@ -1,6 +1,6 @@
 module Formatter
   module JSONFormatter
-    ACCEPTED_FORMATS = [".json"]
+    ACCEPTED_FORMATS = [".json"].freeze
 
     def self.read_from(input)
       validate_format(input)

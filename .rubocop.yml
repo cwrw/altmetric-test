@@ -25,4 +25,7 @@ Style/RescueModifier:
   Enabled: false
 
 Style/RegexpLiteral:
- Enabled: false
+  Enabled: false
+
+Style/Alias:
+  Enabled: false

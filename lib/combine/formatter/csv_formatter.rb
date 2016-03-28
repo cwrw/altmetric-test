@@ -1,6 +1,6 @@
 module Formatter
   module CsvFormatter
-    ACCEPTED_FORMATS = [".csv"]
+    ACCEPTED_FORMATS = [".csv"].freeze
 
     def self.read_from(input)
       validate_format(input)
