@@ -25,11 +25,6 @@ RSpec.feature "Combine" do
     File.join(path, "../../tmp/full_articles.json")
   end
 
-  after(:all) do
-    FileUtils.rm([full_articles_csv])
-    FileUtils.rm([full_articles_json])
-  end
-
   context "valid data" do
     let(:fixture_full_articles_csv) do
       File.read(File.join(path, "../support/fixtures/valid_data/full_articles.csv"))
@@ -39,47 +34,38 @@ RSpec.feature "Combine" do
       File.read(File.join(path, "../support/fixtures/valid_data/full_articles.json"))
     end
 
-    scenario "outputs combined csv file" do
-      `ruby bin/combine --format csv #{files} > #{full_articles_csv}`
-      expect(File.read(full_articles_csv)).to eq(fixture_full_articles_csv)
+    context "json format" do
+      after do
+        FileUtils.rm([full_articles_json])
+      end
+      scenario "outputs combined json file" do
+        `ruby bin/combine --format json #{files} > #{full_articles_json}`
+        expect(File.read(full_articles_json)).to eq(fixture_full_articles_json)
+      end
     end
 
-    scenario "outputs combined json file" do
-      `ruby bin/combine --format json #{files} > #{full_articles_json}`
-      expect(File.read(full_articles_json)).to eq(fixture_full_articles_json)
+    context "csv format" do
+      after do
+        FileUtils.rm([full_articles_csv])
+      end
+
+      scenario "outputs combined csv file" do
+        `ruby bin/combine --format csv #{files} > #{full_articles_csv}`
+        expect(File.read(full_articles_csv)).to eq(fixture_full_articles_csv)
+      end
     end
   end
 
   context "invalid data" do
-    context "format type" do
-      scenario "wrong format specified" do
-        command = `ruby bin/combine --format xml #{files} > #{full_articles_csv}`
-        expect(command).to match("Invalid format, format is eather json or csv")
-      end
-
-      scenario "wrong format specified in full articles file" do
-        invalid_format_file = File.join(path, "../../tmp/full_articles.xml")
-        command = `ruby bin/combine --format csv #{files} > #{invalid_format_file}`
-        expect(command).to match(/Invalid format, format is eather json or csv/)
-      end
+    scenario "wrong format specified" do
+      `ruby bin/combine --format xml #{files} >&1`
+      expect($CHILD_STATUS.exitstatus).to eq(1)
     end
+
     scenario "missing file entry" do
       files = "#{journals_file} #{articles_file}"
-      command = `ruby bin/combine --format csv #{files} > #{full_articles_csv}`
-      expect(command).to match(/Invalid number of input files/)
+      `ruby bin/combine --format csv #{files} >&1`
+      expect($CHILD_STATUS.exitstatus).to eq(1)
     end
-
-    context "data in input" do
-      let(:articles_file) do
-        File.join(path, "../support/fixtures/invalid_data/articles.csv")
-      end
-
-      scenario "missing column in data input" do
-        command = `ruby bin/combine --format json #{files} > #{full_articles_json}`
-        expect(command).to match(/Data in files invalid/)
-      end
-    end
-
-    scenario "fail silently when data missing?"
   end
 end

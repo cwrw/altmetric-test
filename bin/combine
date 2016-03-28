@@ -1,0 +1,37 @@
+#!/usr/bin/env ruby
+require "./lib/combine"
+
+options = {}
+opt_parser = OptionParser.new do |opt|
+  opt.banner = "Usage: ruby bin/combine --format <format> journals.csv articles.csv authors.json > full_articles.<format>"
+  opt.separator  "Supported formats are: csv or json"
+  opt.separator  ""
+  opt.separator  "OPTIONS"
+
+  opt.on("-f", "--format FORMAT", "format for output file") do |format|
+    options[:format] = format
+  end
+
+  opt.on("-h", "--help", "help") do
+    puts opt_parser
+    exit
+  end
+end
+opt_parser.parse!
+
+raise OptionParser::ArgumentError, "Missing input file, run -h to see valid files and formats" if ARGV.size != 3
+
+if options[:format] == "csv"
+  formatter = Formatter::CsvFormatter
+elsif options[:format] == "json"
+  formatter = Formatter::JSONFormatter
+else
+  raise Combine::UnsupportedFormatError
+end
+
+Combine.new(
+  formatter: formatter,
+  journals_file: ARGV[0],
+  articles_file: ARGV[1],
+  authors_file: ARGV[2]
+).generate

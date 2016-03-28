@@ -16,4 +16,12 @@ class Combine
       )
     end
   end
+
+  class UnsupportedFormatError < StandardError
+    def message
+      %(
+        Invalid format. Supported formats are csv and json
+      )
+    end
+  end
 end
