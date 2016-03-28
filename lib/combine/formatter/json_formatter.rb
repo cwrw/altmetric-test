@@ -7,6 +7,10 @@ module Formatter
       JSON.parse(File.read(input))
     end
 
+    def self.write(records)
+      records.map(&:to_h).to_json
+    end
+
     def self.validate_format(file)
       raise ::Combine::InvalidFileFormatError unless
         ACCEPTED_FORMATS.include? File.extname(file)

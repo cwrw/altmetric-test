@@ -7,8 +7,40 @@ RSpec.describe Formatter::JSONFormatter do
     File.join(path, "../../support/fixtures/valid_data/authors.json")
   end
 
-  it "reads json file" do
-    expect { described_class.read_from(file) }.to_not raise_error
+  describe "#read_from" do
+    it "reads json file" do
+      expect { described_class.read_from(file) }.to_not raise_error
+    end
+  end
+
+  describe "#write" do
+    let(:records) do
+      [
+        Combine::Record.new(
+          doi: "doi",
+          title: "title",
+          author: "author",
+          journal: "journal",
+          issn: "issn"
+        )
+      ]
+    end
+
+    let(:formatted_records) do
+      [
+        {
+          "doi" => "doi",
+          "title" => "title",
+          "author" => "author",
+          "journal" => "journal",
+          "issn" => "issn"
+        }
+      ].to_json
+    end
+
+    it "transforms objects to json format" do
+      expect(described_class.write(records)).to eq(formatted_records)
+    end
   end
 
   context "exceptions" do
