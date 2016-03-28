@@ -10,8 +10,8 @@ RSpec.describe Combine::InputParser do
   let(:parsed_articles_contents) do
     {
       "10.1234/altmetric0"   => [{ "Title" => "Small Wooden Chair", "ISSN" => "1337-8688" }],
-      "10.1234/altmetric100" => [{ "Title" => "Ergonomic Rubber Shirt", "ISSN" => "25425856" }],
-      "10.1234/altmetric103" => [{ "Title" => "Fantastic Granite Computer", "ISSN" => "37750307" }],
+      "10.1234/altmetric100" => [{ "Title" => "Ergonomic Rubber Shirt", "ISSN" => "2542-5856" }],
+      "10.1234/altmetric103" => [{ "Title" => "Fantastic Granite Computer", "ISSN" => "3775-0307" }],
       "10.1234/altmetric11"  => [{ "Title" => "Awesome Steel Chair", "ISSN" => "1011-2513" }],
       "10.1234/altmetric461" => [
         { "Title" => "Awesome Cotton Shoes", "ISSN" => "7910-7871" },
@@ -68,7 +68,7 @@ RSpec.describe Combine::InputParser do
   end
 
   it "reads journal file" do
-    expect(described_class.new(authors_file).run).to eq(parsed_journal_contents)
+    expect(described_class.new(journals_file).run).to eq(parsed_journal_contents)
   end
 
   it "reads articles file" do
