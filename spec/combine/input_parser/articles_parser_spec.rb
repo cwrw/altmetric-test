@@ -1,12 +1,7 @@
 require "spec_helper"
 
 RSpec.describe Combine::ArticlesParser do
-  let(:path) { File.dirname(__FILE__) }
-
-  let(:articles_file) do
-    File.join(path, "../../support/fixtures/valid_data/articles.csv")
-  end
-
+  include_context "file data setup"
   let(:parsed_articles_contents) do
     {
       "10.1234/altmetric0"   => [{ "Title" => "Small Wooden Chair", "ISSN" => "1337-8688" }],
@@ -29,12 +24,8 @@ RSpec.describe Combine::ArticlesParser do
   end
 
   context "exceptions" do
-    let(:articles_file) do
-      File.join(path, "../../support/fixtures/invalid_data/articles.csv")
-    end
-
     it "raises error if file data is invalid" do
-      expect { described_class.new(articles_file, formatter).run }.to raise_error(
+      expect { described_class.new(invalid_articles_file, formatter).run }.to raise_error(
         Combine::InvalidDataError
       )
     end

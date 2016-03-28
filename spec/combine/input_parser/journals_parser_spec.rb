@@ -1,12 +1,7 @@
 require "spec_helper"
 
 RSpec.describe Combine::JournalsParser do
-  let(:path) { File.dirname(__FILE__) }
-
-  let(:journals_file) do
-    File.join(path, "../../support/fixtures/valid_data/journals.csv")
-  end
-
+  include_context "file data setup"
   let(:parsed_journal_contents) do
     {
       "1337-8688" => "Shanahan, Green and Ziemann",
@@ -36,12 +31,8 @@ RSpec.describe Combine::JournalsParser do
   end
 
   context "exceptions" do
-    let(:journals_file) do
-      File.join(path, "../../support/fixtures/invalid_data/journals.csv")
-    end
-
     it "raises error if file data is invalid" do
-      expect { described_class.new(journals_file, formatter).run }.to raise_error(
+      expect { described_class.new(invalid_journals_file, formatter).run }.to raise_error(
         Combine::InvalidDataError
       )
     end

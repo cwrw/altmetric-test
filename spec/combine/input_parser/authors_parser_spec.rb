@@ -1,12 +1,7 @@
 require "spec_helper"
 
 RSpec.describe Combine::AuthorsParser do
-  let(:path) { File.dirname(__FILE__) }
-
-  let(:authors_file) do
-    File.join(path, "../../support/fixtures/valid_data/authors.json")
-  end
-
+  include_context "file data setup"
   let(:parsed_authors_contents) do
     {
       "Amari Lubowitz" => [
@@ -34,12 +29,8 @@ RSpec.describe Combine::AuthorsParser do
   end
 
   context "exceptions" do
-    let(:authors_file) do
-      File.join(path, "../../support/fixtures/invalid_data/authors.json")
-    end
-
     it "raises error if file data is invalid" do
-      expect { described_class.new(authors_file, formatter).run }.to raise_error(
+      expect { described_class.new(invalid_authors_file, formatter).run }.to raise_error(
         Combine::InvalidDataError
       )
     end

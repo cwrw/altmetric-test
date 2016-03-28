@@ -1,15 +1,10 @@
 require "spec_helper"
 
 RSpec.describe Formatter::CsvFormatter do
-  let(:path) { File.dirname(__FILE__) }
-
-  let(:file) do
-    File.join(path, "../../support/fixtures/valid_data/articles.csv")
-  end
-
+  include_context "file data setup"
   describe "#read_from" do
     it "reads csv file" do
-      expect { described_class.read_from(file) }.to_not raise_error
+      expect { described_class.read_from(articles_file) }.to_not raise_error
     end
   end
 
@@ -37,12 +32,8 @@ RSpec.describe Formatter::CsvFormatter do
   end
 
   context "exceptions" do
-    let(:file) do
-      File.join(path, "../../support/fixtures/valid_data/authors.json")
-    end
-
     it "raises error if file format invalid" do
-      expect { described_class.read_from(file) }.to raise_error(Combine::InvalidFileFormatError)
+      expect { described_class.read_from(authors_file) }.to raise_error(Combine::InvalidFileFormatError)
     end
   end
 end

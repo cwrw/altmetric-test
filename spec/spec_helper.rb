@@ -1,3 +1,4 @@
+Dir["./spec/support/**/*.rb"].each {|file| require file }
 require "capybara/rspec"
 require "combine"
 

@@ -1,28 +1,7 @@
 require "spec_helper"
 
 RSpec.describe Combine do
-  let(:path) { File.dirname(__FILE__) }
-
-  let(:articles_file) do
-    File.join(path, "../support/fixtures/valid_data/articles.csv")
-  end
-
-  let(:authors_file) do
-    File.join(path, "../support/fixtures/valid_data/authors.json")
-  end
-
-  let(:journals_file) do
-    File.join(path, "../support/fixtures/valid_data/journals.csv")
-  end
-
-  let(:fixture_full_articles_csv) do
-    File.read(File.join(path, "../support/fixtures/valid_data/full_articles.csv"))
-  end
-
-  let(:fixture_full_articles_json) do
-    File.read(File.join(path, "../support/fixtures/valid_data/full_articles.json"))
-  end
-
+  include_context "file data setup"
   let(:formatter) { Formatter::JSONFormatter }
 
   subject do
