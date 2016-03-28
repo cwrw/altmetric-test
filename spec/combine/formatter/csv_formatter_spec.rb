@@ -7,8 +7,33 @@ RSpec.describe Formatter::CsvFormatter do
     File.join(path, "../../support/fixtures/valid_data/articles.csv")
   end
 
-  it "reads csv file" do
-    expect { described_class.read_from(file) }.to_not raise_error
+  describe "#read_from" do
+    it "reads csv file" do
+      expect { described_class.read_from(file) }.to_not raise_error
+    end
+  end
+
+  describe "#write" do
+    let(:records) do
+      [
+        Combine::Record.new(
+          doi: "doi",
+          title: "title",
+          author: "author",
+          journal: "journal",
+          issn: "issn"
+        )
+      ]
+    end
+
+    let(:formatted_records) do
+      "DOI,Article title,Author name,Journal title,Journal ISSN\n" \
+        "doi,title,author,journal,issn\n"
+    end
+
+    it "transforms objects to csv format" do
+      expect(described_class.write(records)).to eq(formatted_records)
+    end
   end
 
   context "exceptions" do

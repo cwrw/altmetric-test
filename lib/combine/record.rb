@@ -1,6 +1,7 @@
 class Combine
   class Record
     attr_reader :doi, :title, :author, :journal, :issn
+    HEADER = ["DOI", "Article title", "Author name", "Journal title", "Journal ISSN"]
 
     def initialize(options = {})
       @doi = options.fetch(:doi)
