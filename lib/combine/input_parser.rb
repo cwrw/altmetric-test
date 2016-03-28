@@ -1,4 +1,4 @@
-module Combine
+class Combine
   class InputParser
     attr_reader :file, :results, :formatter
 

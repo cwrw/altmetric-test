@@ -1,4 +1,4 @@
-module Combine
+class Combine
   class InvalidDataError < StandardError
     def message
       %(

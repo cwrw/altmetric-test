@@ -1,4 +1,4 @@
-module Combine
+class Combine
   class AuthorsParser < InputParser
     ARTICLES = "articles".freeze
     NAME = "name".freeze

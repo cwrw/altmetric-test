@@ -1,4 +1,4 @@
-module Combine
+class Combine
   class JournalsParser < InputParser
     TITLE = "Title".freeze
     ISSN = "ISSN".freeze
