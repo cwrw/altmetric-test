@@ -23,11 +23,11 @@ RSpec.describe Combine do
     File.read(File.join(path, "../support/fixtures/valid_data/full_articles.json"))
   end
 
-  let(:format) { "json" }
+  let(:formatter) { Formatter::JSONFormatter }
 
   subject do
     described_class.new(
-      format: format,
+      formatter: formatter,
       articles_file: articles_file,
       authors_file: authors_file,
       journals_file: journals_file
@@ -35,7 +35,7 @@ RSpec.describe Combine do
   end
 
   describe "#generate" do
-    context "json format" do
+    context "json formatter" do
       let(:message) do
         fixture_full_articles_json
       end
@@ -45,8 +45,8 @@ RSpec.describe Combine do
       end
     end
 
-    context "csv format" do
-      let(:format) { "csv" }
+    context "csv formatter" do
+      let(:formatter) { Formatter::CsvFormatter }
       let(:message) do
         fixture_full_articles_csv
       end

@@ -1,9 +1,9 @@
 class Combine
-  attr_reader :format, :journals_file, :articles_file,
+  attr_reader :formatter, :journals_file, :articles_file,
     :authors_file, :full_articles, :records
 
-  def initialize(format:, journals_file:, articles_file:, authors_file:)
-    @format = format
+  def initialize(formatter:, journals_file:, articles_file:, authors_file:)
+    @formatter = formatter
     @journals_file = journals_file
     @articles_file = articles_file
     @authors_file = authors_file
@@ -18,11 +18,7 @@ class Combine
 
   def output
     link_records
-    if format == "csv"
-      csv_string
-    elsif format == "json"
-      records.map(&:to_h).to_json
-    end
+    formatter.write(records)
   rescue => e
     "Unable to process files due to: #{e.message}"
   end
@@ -34,15 +30,6 @@ class Combine
           record = create_record(doi, article["Title"], name, article["ISSN"])
           records << record if record.valid?
         end
-      end
-    end
-  end
-
-  def csv_string
-    CSV.generate do |csv|
-      csv << ["DOI", "Article title", "Author name", "Journal title", "Journal ISSN"]
-      records.each do |record|
-        csv << record.to_a
       end
     end
   end
