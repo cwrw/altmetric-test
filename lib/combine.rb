@@ -1,4 +1,5 @@
 require "csv"
+require "json"
 require "combine/input_parser"
 require "combine/exceptions"
 require "pry-byebug"

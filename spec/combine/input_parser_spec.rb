@@ -88,11 +88,11 @@ RSpec.describe Combine::InputParser do
       File.join(path, "../support/fixtures/invalid_data/articles.csv")
     end
     it "raises error if file is wrong type" do
-      expect(described_class.new(journals_file).run).to raise_error(Combine::InvalidFileFormatError)
+      expect { described_class.new(journals_file).run }.to raise_error(Combine::InvalidFileFormatError)
     end
 
     it "raises error if file data is invalid" do
-      expect(described_class.new(authors_file).run).to raise_error(Combine::InvalidDataError)
+      expect { described_class.new(articles_file).run }.to raise_error(Combine::InvalidDataError)
     end
   end
 end

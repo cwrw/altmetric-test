@@ -3,13 +3,16 @@ module Combine
     DOI = "DOI".freeze
     TITLE = "Title".freeze
     ISSN = "ISSN".freeze
+    ARTICLES = "articles".freeze
+    NAME = "name".freeze
 
-    attr_reader :file, :articles, :journals
+    attr_reader :file, :articles, :journals, :authors
 
     def initialize(file)
       @file = file
       @articles = {}
       @journals = {}
+      @authors  = {}
     end
 
     def run
@@ -30,9 +33,26 @@ module Combine
       @_csv_content ||= CSV.read(file).reject(&:empty?)
     end
 
+    def json_content
+      @_json_content ||= JSON.parse(File.read(file))
+    end
+
+    def authors_parser
+      extract_authors_content
+    end
+
+    def extract_authors_content
+      json_content.each do |record|
+        raise Combine::InvalidDataError unless record.key?(ARTICLES) && record.key?(NAME)
+        authors[record["name"]] = record["articles"]
+      end
+
+      authors
+    end
+
     def journals_parser
       header = csv_content.shift
-      raise RateCalculatorSystem::InvalidDataError unless journals_header_valid?(header)
+      raise Combine::InvalidDataError unless journals_header_valid?(header)
       extract_journals_content
     end
 
@@ -50,7 +70,7 @@ module Combine
 
     def articles_parser
       header = csv_content.shift
-      raise RateCalculatorSystem::InvalidDataError unless articles_header_valid?(header)
+      raise Combine::InvalidDataError unless articles_header_valid?(header)
       extract_articles_content
     end
 
