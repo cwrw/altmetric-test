@@ -10,6 +10,6 @@ RSpec.configure do |config|
     mocks.verify_partial_doubles = true
   end
 
-  config.warnings = true
+  config.warnings = false
   config.order = :random
 end
