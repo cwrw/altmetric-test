@@ -20,9 +20,12 @@ RSpec.describe Combine::ArticlesParser do
       ]
     }
   end
+  let(:formatter) { Formatter::CsvFormatter }
 
   it "reads articles file" do
-    expect(described_class.new(articles_file).run).to eq(parsed_articles_contents)
+    expect(described_class.new(articles_file, formatter).run).to eq(
+      parsed_articles_contents
+    )
   end
 
   context "exceptions" do
@@ -31,7 +34,9 @@ RSpec.describe Combine::ArticlesParser do
     end
 
     it "raises error if file data is invalid" do
-      expect { described_class.new(articles_file).run }.to raise_error(Combine::InvalidDataError)
+      expect { described_class.new(articles_file, formatter).run }.to raise_error(
+        Combine::InvalidDataError
+      )
     end
   end
 end

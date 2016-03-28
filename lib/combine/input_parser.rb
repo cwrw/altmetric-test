@@ -1,9 +1,10 @@
 module Combine
   class InputParser
-    attr_reader :file, :results
+    attr_reader :file, :results, :formatter
 
-    def initialize(file)
+    def initialize(file, formatter)
       @file = file
+      @formatter = formatter
       @results = {}
     end
 
@@ -17,12 +18,8 @@ module Combine
 
     private
 
-    def csv_content
-      @_csv_content ||= CSV.read(file).reject(&:empty?)
-    end
-
-    def json_content
-      @_json_content ||= JSON.parse(File.read(file))
+    def content
+      @_content ||= formatter.read_from(file)
     end
 
     def format_issn(key)

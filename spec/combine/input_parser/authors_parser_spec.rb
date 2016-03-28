@@ -25,8 +25,12 @@ RSpec.describe Combine::AuthorsParser do
     }
   end
 
+  let(:formatter) { Formatter::JSONFormatter }
+
   it "reads authors file" do
-    expect(Combine::AuthorsParser.new(authors_file).run).to eq(parsed_authors_contents)
+    expect(Combine::AuthorsParser.new(authors_file, formatter).run).to eq(
+      parsed_authors_contents
+    )
   end
 
   context "exceptions" do
@@ -35,7 +39,9 @@ RSpec.describe Combine::AuthorsParser do
     end
 
     it "raises error if file data is invalid" do
-      expect { described_class.new(authors_file).run }.to raise_error(Combine::InvalidDataError)
+      expect { described_class.new(authors_file, formatter).run }.to raise_error(
+        Combine::InvalidDataError
+      )
     end
   end
 end

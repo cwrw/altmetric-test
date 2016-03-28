@@ -27,8 +27,12 @@ RSpec.describe Combine::JournalsParser do
     }
   end
 
+  let(:formatter) { Formatter::CsvFormatter }
+
   it "reads journal file" do
-    expect(Combine::JournalsParser.new(journals_file).run).to eq(parsed_journal_contents)
+    expect(Combine::JournalsParser.new(journals_file, formatter).run).to eq(
+      parsed_journal_contents
+    )
   end
 
   context "exceptions" do
@@ -37,7 +41,9 @@ RSpec.describe Combine::JournalsParser do
     end
 
     it "raises error if file data is invalid" do
-      expect { described_class.new(journals_file).run }.to raise_error(Combine::InvalidDataError)
+      expect { described_class.new(journals_file, formatter).run }.to raise_error(
+        Combine::InvalidDataError
+      )
     end
   end
 end

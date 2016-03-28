@@ -4,7 +4,7 @@ module Combine
     ISSN = "ISSN".freeze
 
     def run
-      header = csv_content.shift
+      header = content.shift
       valid?(header)
       extract_content
     end
@@ -15,7 +15,7 @@ module Combine
     end
 
     def extract_content
-      csv_content.each do |row|
+      content.each do |row|
         results[format_issn(row[1])] = row[0]
       end
 

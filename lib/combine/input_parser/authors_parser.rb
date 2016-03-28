@@ -4,7 +4,7 @@ module Combine
     NAME = "name".freeze
 
     def run
-      json_content.each do |record|
+      content.each do |record|
         valid?(record)
         results[record[NAME]] = record[ARTICLES]
       end
